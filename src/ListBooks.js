@@ -3,16 +3,40 @@ import { Link } from 'react-router-dom';
 import Bookshelf from './Bookshelf';
 
 class ListBooks extends Component {
-  /*state = {
-    query: ''
-  }*/
-
   // TODO: Add Proptypes - Import PropTypes
   //static propTypes = {
   //}
 
+  state = {
+    currentlyReading: [],
+    wantToRead: [],
+    read: []
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      currentlyReading: [],
+      wantToRead: [],
+      read: []
+    });
+  }
+
 	render() {
-    const { books } = this.props;
+    const { currentlyReading, wantToRead, read } = {
+       "currentlyReading":[
+          "nggnmAEACAAJ",
+          "sJf1vQAACAAJ"
+       ],
+       "wantToRead":[
+          "evuwdDLfAyYC",
+          "74XNzF_al3MC",
+          "1wy49i-gQjIC"
+       ],
+       "read":[
+          "jAUODAAAQBAJ",
+          "IOejDAAAQBAJ"
+       ]
+    }
 
 		return(
       <div className="list-books">
@@ -22,19 +46,16 @@ class ListBooks extends Component {
         <div className="list-books-content">
           <div>
             <Bookshelf 
-              className="bookshelf"
               bookshelfTitle="Currently Reading" 
-              books={ books.filter( (book) => (book.shelf === 'currentlyReading'))} 
+              books={ currentlyReading } 
             />
             <Bookshelf 
-              className="bookshelf"
               bookshelfTitle="Want to Read" 
-              books={ books.filter( (book) => (book.shelf === 'wantToRead'))} 
+              books={ wantToRead } 
             />
             <Bookshelf 
-              className="bookshelf"
               bookshelfTitle="Read" 
-              books={ books.filter( (book) => (book.shelf === 'read'))} 
+              books={ read } 
             />
           </div>
         </div>
