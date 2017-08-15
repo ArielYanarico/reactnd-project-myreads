@@ -1,30 +1,21 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Bookshelf from './Bookshelf';
 import CamelCase from 'camelcase';
+import Bookshelf from './Bookshelf';
 
 class ListBooks extends Component {
   static propTypes = {
-    books: PropTypes.array.isRequired,
+    books: PropTypes.object.isRequired,
+    onChangeShelf: PropTypes.func.isRequired
   }
 
+  //TODO: change aproach in order to avoid using this list
   shelves = ['Currently Reading', 'Want to Read', 'Read'];
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentlyReading: props.books.filter((book)=>(book.shelf === 'currentlyReading')).map((book)=>(book.id)),
-      wantToRead: props.books.filter((book)=>(book.shelf === 'wantToRead')).map((book)=>(book.id)),
-      read: props.books.filter((book)=>(book.shelf === 'read')).map((book)=>(book.id))
-    };
-  }
-
-  updateBooks = (updatedBooks) => {
-    this.setState( updatedBooks );
-  }
-
 	render() {
+    const { books, onChangeShelf } = this.props
+
 		return(
       <div className="list-books">
         <div className="list-books-title">
@@ -36,8 +27,8 @@ class ListBooks extends Component {
               <Bookshelf 
                 key={ shelf }
                 bookshelfTitle={ shelf }
-                books={ this.state[CamelCase(shelf)] }
-                onUpdateShelf={this.updateBooks} 
+                books={ books[CamelCase(shelf)] }
+                onChangeShelf={ onChangeShelf } 
               />
             ))}
           </div>

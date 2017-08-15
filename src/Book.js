@@ -5,6 +5,7 @@ import * as BooksAPI from './BooksAPI';
 class Book extends Component {
   static propTypes = {
     book: PropTypes.string.isRequired,
+    onChangeShelf: PropTypes.func.isRequired
   }
 
   state = {
@@ -16,10 +17,13 @@ class Book extends Component {
     this.props.onChangeShelf(this.state.book, event.target.value);
   }
 
-  componentDidMount() {
-    BooksAPI.get(this.props.book).then((book) => {
+  //TODO: move this API request in order to avoid "Initial State from props" antipattern
+  async componentDidMount() {
+  	let book = await BooksAPI.get(this.props.book);
+  	this.setState({ book });
+    /*BooksAPI.get(this.props.book).then((book) => {
       this.setState({ book });
-    });
+    });*/
   }
 
 	render() {

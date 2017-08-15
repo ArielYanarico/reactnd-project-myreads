@@ -78,7 +78,7 @@ body, .app {
   background: #e9e;
 }
 .search-books-bar input {
-  width: 100%;
+  width: 80%;
   padding: 15px 10px;
   font-size: 1.25em;
   border: none;
@@ -101,6 +101,38 @@ body, .app {
 
 .search-books-results {
   padding: 80px 10px 20px;
+}
+
+.book-term-changer {
+  position: absolute;
+  right: 0;
+  bottom: 0px;
+  width: 20%;
+  height: 100%;
+  overflow: hidden;
+  background: #60ac5d;
+  background-image: url('./icons/arrow-drop-down.svg');
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: 20px;
+}
+.book-term-changer select {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  cursor: pointer;
+  background: transparent;
+  line-height: 1;
+  border: 0;
+  border-radius: 0;
+  padding: 15px 10px;
+  font-size: 1.25em;
+  color: #ffffff;
+  -webkit-appearance: none;
+}
+
+.book-term-changer select option{
+  color: #000000;
 }
 
 /* books grid */
