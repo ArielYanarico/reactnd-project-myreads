@@ -14,7 +14,7 @@ class Book extends Component {
 
   handleShelfChange = (event) => {
 		if(this.props.onChangeShelf)
-    this.props.onChangeShelf(this.state.book, event.target.value);
+    	this.props.onChangeShelf(this.state.book, event.target.value);
   }
 
   //TODO: move this API request in order to avoid "Initial State from props" antipattern

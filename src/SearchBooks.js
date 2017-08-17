@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import escapeRegExp from 'escape-string-regexp'
+import escapeRegExp from 'escape-string-regexp';
 import Book from './Book';
 
 class SearchBooks extends Component {
@@ -17,7 +17,7 @@ class SearchBooks extends Component {
   }
 
   updateQuery = (query) => {
-    this.setState({ query: query.trim() })
+    this.setState({ query: query.trim() });
   }
 
   handleTermChange = (event) => {
@@ -26,15 +26,15 @@ class SearchBooks extends Component {
   }
 
 	render() {
-    const { query } = this.state
-    const { books, terms, onChangeShelf } = this.props
-
+    const { query } = this.state;
+    const { books, terms, onChangeShelf } = this.props;
     let showingBooks;
+    
     if (query) {
-      const match = new RegExp(escapeRegExp(query), 'i')
-      showingBooks = books.filter((book) => (match.test(book.title)));
+      const match = new RegExp(escapeRegExp(query), 'i');
+      showingBooks = books.filter((book) => (match.test(book.title) || ( book.authors && book.authors.some((author) => (match.test(author))))));
     } else {
-      showingBooks = books
+      showingBooks = books;
     }
 
 		return(

@@ -14,7 +14,7 @@ class ListBooks extends Component {
   shelves = ['Currently Reading', 'Want to Read', 'Read'];
 
 	render() {
-    const { books, onChangeShelf } = this.props
+    const { books, onChangeShelf } = this.props;
 
 		return(
       <div className="list-books">

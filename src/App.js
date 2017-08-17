@@ -50,7 +50,7 @@ class BooksApp extends Component {
   }
 
   render() {
-    const { books, bookForSearching } = this.state
+    const { books, bookForSearching } = this.state;
    
     return (
       <div className="app">
