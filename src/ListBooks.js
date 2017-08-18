@@ -7,14 +7,15 @@ import Bookshelf from './Bookshelf';
 class ListBooks extends Component {
   static propTypes = {
     books: PropTypes.object.isRequired,
-    onChangeShelf: PropTypes.func.isRequired
+    onChangeShelf: PropTypes.func.isRequired,
+    onLoadBook: PropTypes.func.isRequired
   }
 
   //TODO: change aproach in order to avoid using this list
   shelves = ['Currently Reading', 'Want to Read', 'Read'];
 
 	render() {
-    const { books, onChangeShelf } = this.props;
+    const { books, onChangeShelf, onLoadBook} = this.props;
 
 		return(
       <div className="list-books">
@@ -29,6 +30,7 @@ class ListBooks extends Component {
                 bookshelfTitle={ shelf }
                 books={ books[CamelCase(shelf)] }
                 onChangeShelf={ onChangeShelf } 
+                onLoadBook={ onLoadBook }
               />
             ))}
           </div>

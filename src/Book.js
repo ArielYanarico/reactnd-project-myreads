@@ -1,58 +1,40 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as BooksAPI from './BooksAPI';
+import {asyncReactor} from 'async-reactor';
 
-class Book extends Component {
-  static propTypes = {
-    book: PropTypes.string.isRequired,
-    onChangeShelf: PropTypes.func.isRequired
+const Book = async (props) => {
+  const handleShelfChange = (event) => {
+		if(props.onChangeShelf)
+    	props.onChangeShelf(book, event.target.value);
   }
 
-  state = {
-    book: null
-  }
+  const book = await props.onLoadBook(props.book);
 
-  handleShelfChange = (event) => {
-		if(this.props.onChangeShelf)
-    	this.props.onChangeShelf(this.state.book, event.target.value);
-  }
+	return(
+		<div className="book">
+      {(book) && (
+      	<div className="book">
+	      	<div className="book-top">
+	          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
+	          <div className="book-shelf-changer">
+			        <select onChange={handleShelfChange} value={ book.shelf }>
+			          <option value="none" disabled>Move to...</option>
+			          <option value="currentlyReading">Currently Reading</option>
+			          <option value="wantToRead">Want to Read</option>
+			          <option value="read">Read</option>
+			          <option value="none">None</option>
+			        </select>
+			      </div>
+	        </div>
+	        <div className="book-title">{ book.title }</div>
+	        {(book.authors) && (book.authors.map((author) => (
+	      	  <div key={ author } className="book-authors">{ author }</div>
+	        )))}
+	      </div>
+      )}
+    </div>
+	);
 
-  //TODO: move this API request in order to avoid "Initial State from props" antipattern
-  async componentDidMount() {
-  	let book = await BooksAPI.get(this.props.book);
-  	this.setState({ book });
-    /*BooksAPI.get(this.props.book).then((book) => {
-      this.setState({ book });
-    });*/
-  }
-
-	render() {
-    const { book } = this.state;
-		return(
-			<div className="book">
-	      {(book) && (
-	      	<div className="book">
-		      	<div className="book-top">
-		          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
-		          <div className="book-shelf-changer">
-				        <select onChange={this.handleShelfChange}>
-				          <option value="none" disabled>Move to...</option>
-				          <option value="currentlyReading">Currently Reading</option>
-				          <option value="wantToRead">Want to Read</option>
-				          <option value="read">Read</option>
-				          <option value="none">None</option>
-				        </select>
-				      </div>
-		        </div>
-		        <div className="book-title">{ book.title }</div>
-		        {(book.authors) && (book.authors.map((author) => (
-		      	  <div key={ author } className="book-authors">{ author }</div>
-		        )))}
-		      </div>
-	      )}
-	    </div>
-		);
-	}
 }
 
-export default Book;
+export default asyncReactor(Book);

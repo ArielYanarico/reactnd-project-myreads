@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "async-reactor": "^1.2.1",
     "camelcase": "^4.1.0",
     "escape-string-regexp": "^1.0.5",
     "prop-types": "^15.5.10",
