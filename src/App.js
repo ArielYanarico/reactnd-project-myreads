@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import SearchBooks from './SearchBooks';
 import ListBooks from './ListBooks';
-import escapeRegExp from 'escape-string-regexp';
 import { Route } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import './App.css';
@@ -9,8 +8,7 @@ import './App.css';
 class BooksApp extends Component {
   state = {
     books: null,
-    bookForSearching: [],
-    term: ''
+    bookForSearching: []
   }
 
   async componentDidMount() {
@@ -24,21 +22,12 @@ class BooksApp extends Component {
     });
   }
 
-  updateSearch = (query = '') => {
-    if (this.state.term) {
-      BooksAPI.search(this.state.term, 10).then((bookForSearching) => {
-        if (query) {
-          const match = new RegExp(escapeRegExp(query), 'i');
-          bookForSearching = bookForSearching.filter((book) => (match.test(book.title) || ( book.authors && book.authors.some((author) => (match.test(author))))));
-        } 
+  updateSearch = (query) => {
+    if (query) {
+      BooksAPI.search(query, 10).then((bookForSearching) => { 
+        bookForSearching = bookForSearching instanceof Array ? bookForSearching : [];
         this.setState({ bookForSearching });
-      }); 
-    }
-  }
-
-  updateTerm = (term) => {
-    if(term) {
-      this.setState({term});
+      });
     }
   }
 
@@ -74,7 +63,6 @@ class BooksApp extends Component {
               books={ bookForSearching }
               onChangeQuery={ this.updateSearch }
               onChangeShelf={ this.updateShelf }
-              onChangeTerm={ this.updateTerm}
               onLoadBook={ this.getBook }
             />
           )}/>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-//import escapeRegExp from 'escape-string-regexp';
+import {SearchTerms} from './SearchTerms';
 import Book from './Book';
 
 class SearchBooks extends Component {
@@ -12,27 +12,12 @@ class SearchBooks extends Component {
     onLoadBook: PropTypes.func.isRequired
   }
 
-  searchTerms = [
-    'Android', 'Art', 'Artificial Intelligence', 'Astronomy', 'Austen', 'Baseball', 'Basketball', 'Bhagat', 'Biography', 'Brief', 
-    'Business', 'Camus', 'Cervantes', 'Christie', 'Classics', 'Comics', 'Cook', 'Cricket', 'Cycling', 'Desai', 'Design', 'Development', 
-    'Digital Marketing', 'Drama', 'Drawing', 'Dumas', 'Education', 'Everything', 'Fantasy', 'Film', 'Finance', 'First', 'Fitness', 
-    'Football', 'Future', 'Games', 'Gandhi', 'Homer', 'Horror', 'Hugo', 'Ibsen', 'Journey', 'Kafka', 'King', 'Lahiri', 'Larsson', 
-    'Learn', 'Literary Fiction', 'Make', 'Manage', 'Marquez', 'Money', 'Mystery', 'Negotiate', 'Painting', 'Philosophy', 'Photography', 
-    'Poetry', 'Production', 'Programming', 'React', 'Redux', 'River', 'Robotics', 'Rowling', 'Satire', 'Science Fiction', 'Shakespeare', 
-    'Singh', 'Swimming', 'Tale', 'Thrun', 'Time', 'Tolstoy', 'Travel', 'Ultimate', 'Virtual Reality', 'Web Development', 'iOS'
-  ]
-
   componentDidMount() {
-    this.props.onChangeTerm(this.searchTerms[0]);
-    this.props.onChangeQuery();
+    this.props.onChangeQuery(SearchTerms[0]);
   }
 
   handleQueryChange = (event) => {
-    this.props.onChangeQuery(event.target.value)
-  }
-
-  handleTermChange = (event) => {
-    this.props.onChangeTerm(event.target.value)
+    this.props.onChangeQuery(event.target.value);
   }
 
 	render() {
@@ -46,11 +31,12 @@ class SearchBooks extends Component {
             <input 
               type="text" 
               placeholder="Search by title or author" 
-              onChange={(event) => this.handleQueryChange(event)} 
+              onChange={this.handleQueryChange} 
             />
             <div className="book-term-changer">
-              <select onChange={this.handleTermChange}>
-                {this.searchTerms.map((term) => (
+              <select onChange={this.handleQueryChange} defaultValue="none">
+                <option value="none" disabled>Search by term</option>
+                {SearchTerms.map((term) => (
                   <option key={ term } value={ term }>{ term }</option>
                 ))}
               </select>

@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {asyncReactor} from 'async-reactor';
 
 const Book = async (props) => {
   const handleShelfChange = (event) => {
 		if(props.onChangeShelf)
     	props.onChangeShelf(book, event.target.value);
-  }
+  };
 
   const book = await props.onLoadBook(props.book);
 
@@ -15,10 +14,13 @@ const Book = async (props) => {
       {(book) && (
       	<div className="book">
 	      	<div className="book-top">
-	          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
+	          <div 
+	          	className="book-cover" 
+	          	style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks && book.imageLinks.thumbnail})` }}
+	          />
 	          <div className="book-shelf-changer">
 			        <select onChange={handleShelfChange} value={ book.shelf }>
-			          <option value="none" disabled>Move to...</option>
+			          <option value="move" disabled>Move to...</option>
 			          <option value="currentlyReading">Currently Reading</option>
 			          <option value="wantToRead">Want to Read</option>
 			          <option value="read">Read</option>
@@ -34,7 +36,6 @@ const Book = async (props) => {
       )}
     </div>
 	);
-
-}
+};
 
 export default asyncReactor(Book);
