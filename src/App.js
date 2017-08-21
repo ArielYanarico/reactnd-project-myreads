@@ -24,7 +24,7 @@ class BooksApp extends Component {
 
   updateSearch = (query) => {
     if (query) {
-      BooksAPI.search(query, 10).then((bookForSearching) => { 
+      BooksAPI.search(query, 10).then((bookForSearching) => {
         bookForSearching = bookForSearching instanceof Array ? bookForSearching : [];
         this.setState({ bookForSearching });
       });
@@ -39,18 +39,18 @@ class BooksApp extends Component {
 
   async getBook(bookId) {
     if (bookId) {
-      return await BooksAPI.get(bookId); 
-    } 
+      return await BooksAPI.get(bookId);
+    }
   }
 
   render() {
     const { books, bookForSearching } = this.state;
-   
+
     return (
       <div className="app">
         {(books) && (
           <Route exact path="/" render={() => (
-            <ListBooks 
+            <ListBooks
               books={ books }
               onChangeShelf={ this.updateShelf }
               onLoadBook={ this.getBook }
@@ -58,12 +58,13 @@ class BooksApp extends Component {
           )}/>
         )}
         {(bookForSearching) && (
-          <Route path="/search" render={() => (
-            <SearchBooks 
+          <Route path="/search"  render={({ history }) => (
+            <SearchBooks
               books={ bookForSearching }
               onChangeQuery={ this.updateSearch }
               onChangeShelf={ this.updateShelf }
               onLoadBook={ this.getBook }
+              history={ history }
             />
           )}/>
         )}

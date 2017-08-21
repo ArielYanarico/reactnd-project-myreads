@@ -9,29 +9,33 @@ class SearchBooks extends Component {
     books: PropTypes.array.isRequired,
     onChangeQuery: PropTypes.func.isRequired,
     onChangeShelf: PropTypes.func.isRequired,
-    onLoadBook: PropTypes.func.isRequired
-  }
-
-  componentDidMount() {
-    this.props.onChangeQuery(SearchTerms[0]);
+    onLoadBook: PropTypes.func.isRequired,
+    history: PropTypes.object
   }
 
   handleQueryChange = (event) => {
     this.props.onChangeQuery(event.target.value);
   }
 
+  handleShelfChange = (book, shelf) => {
+    if (this.props.history)
+    this.props.history.push('/');
+    console.log(this.props.history)
+    this.props.onChangeShelf(book, shelf);
+  }
+
 	render() {
-    const { books, onChangeShelf, onLoadBook } = this.props;
+    const { books, onLoadBook } = this.props;
 
 		return(
 			<div className="search-books">
         <div className="search-books-bar">
         	<Link className="close-search" to='/'>Close</Link>
           <div className="search-books-input-wrapper">
-            <input 
-              type="text" 
-              placeholder="Search by title or author" 
-              onChange={this.handleQueryChange} 
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              onChange={this.handleQueryChange}
             />
             <div className="book-term-changer">
               <select onChange={this.handleQueryChange} defaultValue="none">
@@ -47,9 +51,9 @@ class SearchBooks extends Component {
           <ol className="books-grid">
             {books.map((book) => (
               <li key={book.id}>
-                <Book 
-                  book={ book.id } 
-                  onChangeShelf={ onChangeShelf }
+                <Book
+                  book={ book.id }
+                  onChangeShelf={ this.handleShelfChange }
                   onLoadBook={ onLoadBook }
                 />
               </li>
